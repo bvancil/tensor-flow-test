@@ -1,0 +1,86 @@
+---
+title: Tensorflow test
+jupyter: python3
+---
+
+## Load libraries to check GPU count
+
+```{python}
+import tensorflow as tf
+from tensorflow.python.client import device_lib
+
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+device_lib.list_local_devices()
+```
+
+## Load libraries for a few more tests
+
+```{python}
+import numpy as np
+import cupy as cp
+import dask.array as da
+```
+
+## Time a few things
+
+## Conventional
+
+```{python}
+rs = da.random.RandomState()
+```
+
+
+```{python}
+%%timeit
+x = rs.normal(10, 1, size=(50000, 50000), chunks=(1000, 1000))
+```
+
+```{python}
+x = rs.normal(10, 1, size=(50000, 50000), chunks=(1000, 1000))
+print(x.nbytes / 1e9)
+```
+
+```{python}
+%%timeit
+(x + 1)[::2, ::2].sum().compute(scheduler='single-threaded')
+```
+
+```{python}
+%%timeit
+(x + 1)[::2, ::2].sum().compute(scheduler='threads')
+```
+
+## CUDA-assisted
+
+```{python}
+%%timeit
+rs2 = da.random.RandomState(RandomState=cp.random.RandomState) # cupy!
+x2 = rs2.normal(10, 1, size=(50000, 50000), chunks=(1000, 10000))
+```
+
+```{python}
+rs2 = da.random.RandomState(RandomState=cp.random.RandomState) # cupy!
+x2 = rs2.normal(10, 1, size=(50000, 50000), chunks=(1000, 10000))
+print(x2.nbytes / 1e9)
+```
+
+```{python}
+%%timeit
+(x2 + 1)[::2, ::2].sum().compute(scheduler='single-threaded')
+```
+
+```{python}
+%%timeit
+(x2 + 1)[::2, ::2].sum().compute(scheduler='threads')
+```
+
+```{python}
+%%timeit
+(x2 + 1)[::2, ::2].sum().compute()
+```
+
+```{python}
+(x2 + 1)[::2, ::2].sum().compute()
+```
+
+
