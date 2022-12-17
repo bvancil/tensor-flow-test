@@ -1,0 +1,39 @@
+---
+title: Test for GPU
+jupyter: python3
+---
+
+```{python}
+import GPUtil
+help(GPUtil.GPUtil)
+```
+
+In the below, "0" is the index for the 0th GPU.
+
+```{python}
+GPUtil.getAvailable()
+```
+
+
+```{python}
+GPUtil.showUtilization()
+```
+
+Grab that first GPU.
+
+```{python}
+gpu = GPUtil.getGPUs()[0]
+print(gpu)
+```
+
+Show properties as a dictionary.
+
+```{python}
+{
+    prop: getattr(gpu, prop)
+    for prop in sorted(dir(gpu))
+    if prop[0] != '_'
+}
+```
+
+

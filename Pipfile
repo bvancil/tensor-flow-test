@@ -6,10 +6,11 @@ name = "pypi"
 [packages]
 jupyterlab = "*"
 ipykernel = "*"
-tensorflow = "*"
+tensorflow-gpu = "*"
 numpy = "*"
 dask = "*"
 cupy-cuda112 = "*"
+GPUtil = "*"
 
 [dev-packages]
 

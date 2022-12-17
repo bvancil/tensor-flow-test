@@ -7,10 +7,20 @@ jupyter: python3
 
 ```{python}
 import tensorflow as tf
+print(tf.__version__)
 from tensorflow.python.client import device_lib
 
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 device_lib.list_local_devices()
+```
+
+```{python}
+tf.test.gpu_device_name()
+```
+
+
+```{python}
+print(tf.config.list_physical_devices(device_type=None))
 ```
 
 ## Load libraries for a few more tests

@@ -1,0 +1,6 @@
+# # Quarto
+# Previews
+*.html
+*.pdf
+# Any subdirectory of auxiliary files
+*_files/
